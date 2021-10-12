@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bubble</title>
+    <style>
+        .outer, .middle, .inner{
+            color: black;
+            padding: 20px;
+        }
+        .outer{
+            background-color: orange;
+        }
+        .middle{
+            background-color: steelblue;
+        }
+        .inner{
+            background-color: pink;
+        }
+    </style>
+</head>
+<body>
+    <div class="outer">
+        outer
+        <div class="middle">
+            middle
+            <div class="inner">
+                inner
+                <button>click me !</button>
+            </div>
+        </div>
+    </div>
+<script type="module">
+    const $ = selector => document.querySelector(selector)
+    // 冒泡
+    $('.outer').addEventListener('click', function (e) {
+      // console.log('%c [target]', 'color: orange', e.target)
+      // console.log('%c [currentTarget]', 'color: orange', e.currentTarget)
+      console.log('%c [bubble] outer div is clicked.', 'color: orange')
+    }, false)
+    $('.middle').addEventListener('click', function (e) {
+      // console.log('%c [target]', 'color: steelblue', e.target)
+      // console.log('%c [currentTarget]', 'color: steelblue', e.currentTarget)
+      console.log('%c [bubble] middle div is clicked.', 'color: steelblue')
+    }, false)
+    $('.inner').addEventListener('click', function (e) {
+      // console.log('%c [target]', 'color: pink', e.target)
+      // console.log('%c [currentTarget]', 'color: pink', e.currentTarget)
+      console.log('%c [bubble] inner div is clicked.', 'color: pink')
+    }, false)
+    $('button').addEventListener('click', function (e) {
+      // console.log('%c [target]', 'color: red', e.target)
+      // console.log('%c [currentTarget]', 'color: red', e.currentTarget)
+      console.log('%c [bubble] button is clicked.', 'color: red')
+    }, false)
+
+    // 捕获
+    $('.outer').addEventListener('click', function () {
+      console.log('%c [capture] outer div is clicked.', 'color: orange')
+    }, true)
+    $('.middle').addEventListener('click', function () {
+      console.log('%c [capture] middle div is clicked.', 'color: steelblue')
+    }, true)
+    $('.inner').addEventListener('click', function () {
+      console.log('%c [capture] inner div is clicked.', 'color: pink')
+    }, true)
+    $('button').addEventListener('click', function () {
+      console.log('%c [capture] button is clicked.', 'color: red')
+    }, true)
+</script>
+</body>
+</html>
