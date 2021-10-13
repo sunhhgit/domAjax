@@ -5,7 +5,10 @@
     <title>Ajax</title>
 </head>
 <body>
-<script type="module">
+<button style="margin: 50px" onclick="getData()">点击发送请求</button>
+<div style="margin-left: 50px">返回结果：</div>
+<div id="result" style="margin: 20px 0 0 50px;"></div>
+<script>
     function ajax(url, onSuccess, onFailed) {
       // 创建xhr
       const xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTML")
@@ -26,7 +29,12 @@
         }
       }
     }
-    ajax('http://localhost:63342/domAjax/data.json', res => console.log(res))
+    function getData() {
+      ajax('data.json', res => {
+        console.log(res)
+        document.getElementById('result').innerHTML = JSON.stringify(res)
+      })
+    }
 </script>
 </body>
 </html>

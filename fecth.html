@@ -5,7 +5,10 @@
     <title>Fecth</title>
 </head>
 <body>
-<script type="module">
+<button style="margin: 50px" onclick="getData()">点击发送请求</button>
+<div style="margin-left: 50px">返回结果：</div>
+<div id="result" style="margin: 20px 0 0 50px;"></div>
+<script>
   // fetch('http://localhost:63342/domAjax/data.json')
   //   .then(res => res.json())
   //   .then(res => console.log(res))
@@ -100,37 +103,45 @@
     }
     return promise
   }
+  function getData() {
+    req({
+      url: 'http://localhost:63342/domAjax/data.json',
+      method: 'get',
+      interceptor: {
+        fullfilled: res => {
+          console.log('请求拦截成功=>', res)
+          Promise.reject('非法请求拦截')
+        },
+        rejected: reason => {
+          console.log('请求拦截失败=>', reason)
+          return reason
+        }
+      },
+      adaptor: {
+        fullfilled: res => {
+          console.log('响应拦截成功=>', res)
+          return res
+        },
+        rejected: reason => {
+          console.log('响应拦截失败=>', reason)
+          return reason
+        }
+      },
+      cancel(c) {
+        cc = c
+      }
+    }).then(res => {
+      console.log('返回请求结果=>',res)
+      document.getElementById('result').innerHTML = "返回请求结果=>" + JSON.stringify(res)
+    }, err => {
+      console.log('返回请求异常信息=>',err)
+      document.getElementById('result').innerHTML = "返回请求异常信息=>" + err
+    })
+    // setTimeout(() => {
+    //   cc && cc()
+    // }, 3000)
+  }
 
-  req({
-    url: 'http://localhost:63342/domAjax/data.json',
-    method: 'get',
-    interceptor: {
-      fullfilled: res => {
-        console.log('请求拦截成功=>', res)
-        return res
-      },
-      rejected: reason => {
-        console.log('请求拦截失败=>', reason)
-        return reason
-      }
-    },
-    adaptor: {
-      fullfilled: res => {
-        console.log('响应拦截成功=>', res)
-        return res
-      },
-      rejected: reason => {
-        console.log('响应拦截失败=>', reason)
-        return reason
-      }
-    },
-    cancel(c) {
-      cc = c
-    }
-  }).then(res => console.log('返回请求结果=>',res))
-  // setTimeout(() => {
-  //   cc && cc()
-  // }, 3000)
 </script>
 </body>
 </html>
